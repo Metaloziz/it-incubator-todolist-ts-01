@@ -13,7 +13,7 @@ function App() {
         { id: v1(), title: "ReactJS", isDone: false },
         { id: v1(), title: "Rest API", isDone: false },
         { id: v1(), title: "GraphQL", isDone: false },
-    ]);
+          ]);
 
     function removeTask(id: string) {
         let filteredTasks = tasks.filter(t => t.id != id);
@@ -26,20 +26,27 @@ function App() {
         setTasks(newTasks);
     }
 
+    const changeStatus=(CurrentId:string,value:boolean)=>{
+        console.log(value)
+        setTasks(tasks.map(m=>m.id===CurrentId  ? {...m, isDone: value} : m))
+    }
+
     let [filter, setFilter] = useState<FilterValuesType>("all");
 
     let tasksForTodolist = tasks;
 
     if (filter === "active") {
-        tasksForTodolist = tasks.filter(t => !t.isDone);
+        tasksForTodolist = tasks.filter(t => t.isDone === false);
     }
     if (filter === "completed") {
-        tasksForTodolist = tasks.filter(t => t.isDone);
+        tasksForTodolist = tasks.filter(t => t.isDone === true);
     }
 
     function changeFilter(value: FilterValuesType) {
         setFilter(value);
     }
+
+
 
     return (
         <div className="App">
@@ -47,7 +54,11 @@ function App() {
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
-                      addTask={addTask} />
+                      addTask={addTask}
+                      changeStatus={changeStatus}
+                      filter={filter}
+
+            />
         </div>
     );
 }
