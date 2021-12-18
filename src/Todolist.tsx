@@ -67,4 +67,9 @@ export function Todolist(props: PropsType) {
             <button onClick={ onCompletedClickHandler }>Completed</button>
         </div>
     </div>
+
+
+
+
+
 }
