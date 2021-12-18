@@ -2,12 +2,12 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 
 type AddItemFormPT = {
-    addTask: (todolistId: string, title: string) => void
-    todolistId: string
+    addTask: (title: string) => void
 }
 
 
 export const AddItemForm = (props: AddItemFormPT) => {
+
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
@@ -18,14 +18,15 @@ export const AddItemForm = (props: AddItemFormPT) => {
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
-            addTask();
+            addItem();
         }
     }
 
-    const addTask = () => {
-        debugger
+    const addItem = () => {
+        // debugger
+        console.log('addItem')
         if (title.trim() !== "") {
-            props.addTask(props.todolistId, title.trim());
+            props.addTask(title.trim());
             setTitle("");
         } else {
             setError("Title is required");
@@ -38,7 +39,7 @@ export const AddItemForm = (props: AddItemFormPT) => {
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <button onClick={addTask}>add</button>
+            <button onClick={addItem}>add</button>
             {error && <div className="error-message">{error}</div>}
         </div>
     )

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 
@@ -21,33 +21,39 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
+    const addTask = (title: string) => {
+        console.log('addTask')
+        if (title.trim() !== "") {
+            props.addTask(props.todolistId, title.trim());
+        }
+    }
+
     const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
     const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
     const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
 
-
-
-
+    // debugger
     return <div>
         <h3>{props.title}</h3>
-        <AddItemForm addTask={props.addTask} todolistId={props.todolistId}/>
-        <ul>{
-            props.tasks.map(t => {
-                const onClickHandler = () => {
-                    props.removeTask(props.todolistId, t.id)
-                }
-                const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked);
-                }
+        <AddItemForm addTask={addTask}/>
 
-                return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                    <input type="checkbox"
-                           onChange={onChangeHandler}
-                           checked={t.isDone}/>
-                    <span>{t.title}</span>
-                    <button onClick={onClickHandler}>x</button>
-                </li>
-            })
+        <ul>{props.tasks.map(t => {
+
+            const onClickHandler = () => {
+                props.removeTask(props.todolistId, t.id)
+            }
+            const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked);
+            }
+
+            return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                <input type="checkbox"
+                       onChange={onChangeHandler}
+                       checked={t.isDone}/>
+                <span>{t.title}</span>
+                <button onClick={onClickHandler}>x</button>
+            </li>
+        })
         }
         </ul>
         <div>
