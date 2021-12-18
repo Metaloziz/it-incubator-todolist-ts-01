@@ -1,0 +1,21 @@
+.App li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.App ul {
+    padding-left: 2%;
+}
+
+
+
+.main {
+    margin-left: 5%;
+    display: flex;
+    gap: 5%;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+}
