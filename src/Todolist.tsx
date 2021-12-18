@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {AddItemForm} from "./components/AddItemForm";
+import {SpanNew} from "./components/SpanNew";
 
 type TaskType = {
     id: string
@@ -17,6 +18,7 @@ type PropsType = {
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
+    changeTitle: (todolistId: string, taskId: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -32,11 +34,15 @@ export function Todolist(props: PropsType) {
     const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
     const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
 
+
+    // const callBackLocal = (title: string, e: ChangeEvent<HTMLInputElement>) => {
+    //     props.changeTitle(props.todolistId, e.currentTarget.id, title)
+    // }
+
     // debugger
     return <div>
         <h3>{props.title}</h3>
         <AddItemForm addTask={addTask}/>
-
         <ul>{props.tasks.map(t => {
 
             const onClickHandler = () => {
@@ -50,7 +56,10 @@ export function Todolist(props: PropsType) {
                 <input type="checkbox"
                        onChange={onChangeHandler}
                        checked={t.isDone}/>
-                <span>{t.title}</span>
+                {/*<span>{t.title}</span>*/}
+                <SpanNew value={t.title} changeTitle={(text)=>{
+                    props.changeTitle(props.todolistId, t.id, text )
+                }}/>
                 <button onClick={onClickHandler}>x</button>
             </li>
         })
