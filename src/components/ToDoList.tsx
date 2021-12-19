@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, MouseEvent, useState} from 'react';
 
 import {buttonsPT, filterPT, taskPT} from "../App";
 import s from '../App.module.css'
+import {id1, id2} from "./test";
 
 type ToDoListPT = {
     listID: string
@@ -28,6 +29,14 @@ export const ToDoList = ({
                              addTask,
                              filter, removeList
                          }: ToDoListPT) => {
+//////////////
+
+    console.log(id1 === id2)
+    console.log(id1)
+    console.log(id2)
+
+    ///////////////
+
     let all = buttons.all
     let active = buttons.active
     let completed = buttons.completed
