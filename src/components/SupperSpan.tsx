@@ -5,7 +5,7 @@ import {buttonsPT} from "../App";
 type SupperSpanPT = {
     id: string
     title: string
-    changeTitle: (id: string, title: string) => void
+    changeTitle: (title: string, id: string) => void
 }
 
 export const SupperSpan = ({title, changeTitle, id}: SupperSpanPT) => {
@@ -20,7 +20,7 @@ export const SupperSpan = ({title, changeTitle, id}: SupperSpanPT) => {
         setTitle(e.currentTarget.value)
     }
     const sendTExt = () => {
-        changeTitle(id, localTitle)
+        changeTitle(localTitle, id)
         setInput(false)
     }
 

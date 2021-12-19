@@ -84,11 +84,11 @@ function App() {
     }
 
     const changeTitleList = (newTitle: string, listID: string) => {
-        setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
+        // setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
+        // console.log(state)
     }
     const changeTitleTask = (newTitle: string, listID: string, taskID: string) => {
 
-        console.log('adf')
         // setTasks({...tasks, [listID]: tasks[listID].map(l => l.id == taskID ? {...l, title: newTitle} : l)})
     }
 

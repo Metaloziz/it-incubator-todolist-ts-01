@@ -12,8 +12,8 @@ let object: objectPropsType = {
     [id1]: 'example',
     [id2]: 'example',
     'cccccccccc': 'aaaaaaaaaaa',
-    'test': 'eeee',
-    // 'test': 'eeee',
+    'key1': 'eeee',
+    // 'key1': 'eeee',
     [id1]: '',
     [id1]: ''
 }

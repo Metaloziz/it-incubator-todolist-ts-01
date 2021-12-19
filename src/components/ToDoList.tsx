@@ -64,8 +64,8 @@ export const ToDoList = ({
 
                             return <li key={index} className={t.isDone ? s.isDone : ''}>
                                 <input id={t.id} type="checkbox" checked={t.isDone} readOnly onClick={changeTaskStatusCB}/>
-                                {/*<span>{t.title}</span>*/}
-                                <SupperSpan id={t.id} title={t.title} changeTitle={changeTitleTaskCB}/>
+                                <span>{t.title}</span>
+                                {/*<SupperSpan id={t.id} title={t.title} changeTitle={changeTitleTaskCB}/>*/}
                                 <button onClick={removeTaskCB}>{buttons.x}</button>
                             </li>
                         }
