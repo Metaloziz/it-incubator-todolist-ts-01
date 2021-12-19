@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {ToDoList} from "./components/ToDoList";
 import {v1} from "uuid";
 import s from './App.module.css'
+import {SupperInput} from "./components/SupperInput";
 
 export type filterPT = 'All' | 'Completed' | 'Active'
 
@@ -86,6 +87,7 @@ function App() {
 
     return (
         <div className={s.main}>
+            <SupperInput listID={v1()} addItem={addTask} buttons={buttons}/>
             {state.map(l => {
 
                 let copyTasks = tasks[l.id]

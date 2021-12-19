@@ -1,8 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, MouseEvent, useState} from 'react';
+import React, {MouseEvent} from 'react';
 
 import {buttonsPT, filterPT, taskPT} from "../App";
 import s from '../App.module.css'
-import {id1, id2} from "./test";
+import {SupperInput} from "./SupperInput";
 
 type ToDoListPT = {
     listID: string
@@ -19,62 +19,23 @@ type ToDoListPT = {
 
 
 export const ToDoList = ({
-                             listID,
-                             buttons,
-                             filterTasks,
-                             tasks,
-                             changeTaskStatus,
-                             title,
-                             removeTask,
-                             addTask,
+                             listID, buttons,
+                             filterTasks, tasks,
+                             changeTaskStatus, title,
+                             removeTask, addTask,
                              filter, removeList
                          }: ToDoListPT) => {
-//////////////
-
-    console.log(id1 === id2)
-    console.log(id1)
-    console.log(id2)
-
-    ///////////////
 
     let all = buttons.all
     let active = buttons.active
     let completed = buttons.completed
 
-    const [newTaskTitle, setNewTaskTitle] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
 
-
-    const addTaskButtonCB = () => {
-        if (newTaskTitle.trim()) {
-            addTask(newTaskTitle, listID)
-            setNewTaskTitle('')
-        } else setError(true)
-
-
-    }
-    const addTaskEnterCB = (event: KeyboardEvent<HTMLInputElement>) => {
-        switch (event.key) {
-            case 'Enter':
-                if (newTaskTitle.trim()) {
-                    addTask(newTaskTitle, listID)
-                    setNewTaskTitle('')
-                } else setError(true)
-                break;
-        }
-
-    }
-    const changeInputCB = (event: ChangeEvent<HTMLInputElement>) => {
-        setError(false)
-        setNewTaskTitle(event.currentTarget.value)
-    }
     const changeTaskStatusCB = (taskID: MouseEvent<HTMLInputElement>) => {
         changeTaskStatus(taskID.currentTarget.id, listID)
     }
 
-    const removeListCB = () => {
-        removeList(listID)
-    }
+    const removeListCB = () => removeList(listID)
 
     const filterAll = () => filterTasks(all, listID)
     const filterActive = () => filterTasks(active, listID)
@@ -88,13 +49,7 @@ export const ToDoList = ({
                     <button onClick={removeListCB}>{buttons.x}</button>
                 </div>
 
-                <div>
-                    <input className={error ? s.input : ''} value={newTaskTitle}
-                           onChange={changeInputCB}
-                           onKeyPress={addTaskEnterCB}/>
-                    <button onClick={addTaskButtonCB}>{buttons.added}</button>
-                    {error ? <div className={s.errorMessage}>error</div> : ''}
-                </div>
+                <SupperInput listID={listID} addItem={addTask} buttons={buttons}/>
                 <ul>
                     {tasks.map((t, index) => {
 
