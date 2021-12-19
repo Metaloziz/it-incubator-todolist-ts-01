@@ -16,29 +16,29 @@ type ToDoListPT = {
 
 export const ToDoList = (props: ToDoListPT) => {
 
-    const [title, setTitle] = useState<string>('')
+    const [newTaskTitle, setNewTaskTitle] = useState<string>('')
 
 
     const addTaskButtonCB = () => {
-        if (title.trim()) {
-            props.addTask(title)
-            setTitle('')
+        if (newTaskTitle.trim()) {
+            props.addTask(newTaskTitle)
+            setNewTaskTitle('')
         }
 
     }
     const addTaskEnterCB = (event: KeyboardEvent<HTMLInputElement>) => {
         switch (event.key) {
             case 'Enter':
-                if (title.trim()) {
-                    props.addTask(title)
-                    setTitle('')
+                if (newTaskTitle.trim()) {
+                    props.addTask(newTaskTitle)
+                    setNewTaskTitle('')
                 }
                 break;
         }
 
     }
     const changeTaskCallBack = (event: ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.currentTarget.value)
+        setNewTaskTitle(event.currentTarget.value)
     }
 
 
@@ -46,7 +46,7 @@ export const ToDoList = (props: ToDoListPT) => {
             <div>
                 <h3>{props.title}</h3>
                 <div>
-                    <input value={title}
+                    <input value={newTaskTitle}
                            onChange={changeTaskCallBack}
                            onKeyPress={addTaskEnterCB}/>
                     <button onClick={addTaskButtonCB}>+</button>
