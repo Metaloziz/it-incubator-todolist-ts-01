@@ -7,6 +7,14 @@
     padding-left: 2%;
 }
 
+.errorMessage {
+    color: #ff0000;
+    font-weight: 500;
+}
+
+.input {
+    border-color: red;
+}
 
 
 .main {
@@ -19,3 +27,12 @@
     display: flex;
     justify-content: space-between;
 }
+
+.filter .active {
+    background-color: aqua;
+}
+
+.isDone {
+    opacity: 50%;
+}
+

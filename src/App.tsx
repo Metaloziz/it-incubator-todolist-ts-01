@@ -4,8 +4,7 @@ import {ToDoList} from "./components/ToDoList";
 import {v1} from "uuid";
 import s from './App.module.css'
 
-export type filterPT = 'all' | 'completed' | 'active'
-export const filters = 'all'
+export type filterPT = 'All' | 'Completed' | 'Active'
 
 export type tasksPT = taskPT[]
 
@@ -15,12 +14,31 @@ export type taskPT = {
     isDone: boolean
 }
 
+export type buttonsPT = typeof buttons
+
+type statePT = toDolistPT[]
+
+export type toDolistPT = {
+    id: string
+    title: string
+    filter: filterPT
+}
+
+
+const buttons = {
+    all: 'All',
+    completed: 'Completed',
+    active: 'Active',
+    added: 'Added',
+    x: 'x'
+} as const
+
 
 function App() {
 
-    const state = [
-        {id: v1(), title: 'What to learn', filter: 'all'},
-        {id: v1(), title: 'Food', filter: 'all'}
+    const toDoLists: statePT = [
+        {id: v1(), title: 'What to learn', filter: 'All'},
+        {id: v1(), title: 'Food', filter: 'All'}
     ]
 
     const tasks1: tasksPT = [
@@ -38,38 +56,58 @@ function App() {
     ]
 
     const [tasks, setTasks] = useState<tasksPT>(tasks1)
-    const [filter, setFilter] = useState<filterPT>("all")
+    const [state, setState] = useState<statePT>(toDoLists)
+
 
     const removeTask = (taskID: string) => {
         const copyTasks = [...tasks]
         setTasks(copyTasks.filter(l => l.id !== taskID))
     }
-
-    let copyTasks = tasks
-
-    switch (filter) {
-        case 'completed':
-            copyTasks = tasks.filter(l => l.isDone)
-            break
-        case 'active':
-            copyTasks = tasks.filter(l => !l.isDone)
-    }
-
-
     const addTask = (title: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
         const copyTasks = [newTask, ...tasks]
         setTasks(copyTasks)
     }
+    const changeTaskStatus = (taskID: string) => {
+        let copyTasks: tasksPT = [...tasks]
+        copyTasks = tasks.map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)
+        setTasks(copyTasks)
+    }
+    const changeFilter = (filter: filterPT, idToDoList: string) => {
+        console.log('gg')
+        debugger
+        let copyToDoLists = [...toDoLists]
+        copyToDoLists.map(l => l.id === idToDoList ? {...l, filter: filter} : l)
+    }
+
 
     return (
         <div className={s.main}>
-            <ToDoList title={'What to learn'}
-                      tasks={copyTasks}
-                      removeTask={removeTask}
-                      filterTasks={setFilter}
-                      addTask={addTask}/>
-            {/*<ToDoList title={'Food'} tasks={tasks2}/>*/}
+            {state.map(l => {
+
+                let copyTasks = tasks
+                debugger
+                switch (l.filter) {
+                    case 'Completed':
+                        copyTasks = tasks.filter(l => l.isDone)
+                        break
+                    case 'Active':
+                        copyTasks = tasks.filter(l => !l.isDone)
+                        break
+                }
+
+                return (<ToDoList toDoListID={l.id}
+                                  key={l.id}
+                                  title={l.title}
+                                  tasks={copyTasks}
+                                  removeTask={removeTask}
+                                  filterTasks={changeFilter}
+                                  addTask={addTask}
+                                  changeTaskStatus={changeTaskStatus}
+                                  buttons={buttons}
+                                  filter={l.filter}/>
+                )
+            })}
         </div>
     );
 }
