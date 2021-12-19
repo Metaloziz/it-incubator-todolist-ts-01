@@ -4,20 +4,21 @@ import {buttonsPT, filterPT, taskPT} from "../App";
 import s from '../App.module.css'
 
 type ToDoListPT = {
-    toDoListID: string
+    listID: string
     title: string
     filter: filterPT
     tasks: taskPT[]
-    removeTask: (taskID: string) => void
+    removeTask: (taskID: string, listID: string) => void
+    removeList: (listID: string) => void
     filterTasks: (filter: filterPT, toDoListID: string) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskID: string) => void
+    addTask: (title: string, listID: string) => void
+    changeTaskStatus: (taskID: string, listID: string) => void
     buttons: buttonsPT
 }
 
 
 export const ToDoList = ({
-                             toDoListID,
+                             listID,
                              buttons,
                              filterTasks,
                              tasks,
@@ -25,7 +26,7 @@ export const ToDoList = ({
                              title,
                              removeTask,
                              addTask,
-                             filter
+                             filter, removeList
                          }: ToDoListPT) => {
     let all = buttons.all
     let active = buttons.active
@@ -37,7 +38,7 @@ export const ToDoList = ({
 
     const addTaskButtonCB = () => {
         if (newTaskTitle.trim()) {
-            addTask(newTaskTitle)
+            addTask(newTaskTitle, listID)
             setNewTaskTitle('')
         } else setError(true)
 
@@ -47,9 +48,9 @@ export const ToDoList = ({
         switch (event.key) {
             case 'Enter':
                 if (newTaskTitle.trim()) {
-                    addTask(newTaskTitle)
+                    addTask(newTaskTitle, listID)
                     setNewTaskTitle('')
-                }
+                } else setError(true)
                 break;
         }
 
@@ -59,20 +60,25 @@ export const ToDoList = ({
         setNewTaskTitle(event.currentTarget.value)
     }
     const changeTaskStatusCB = (taskID: MouseEvent<HTMLInputElement>) => {
-        changeTaskStatus(taskID.currentTarget.id)
+        changeTaskStatus(taskID.currentTarget.id, listID)
     }
 
-    const filterAll = () => {
-        console.log('all')
-        return filterTasks(all, toDoListID)
+    const removeListCB = () => {
+        removeList(listID)
     }
-    const filterActive = () => filterTasks(active, toDoListID)
-    const filterCompleted = () => filterTasks(completed, toDoListID)
+
+    const filterAll = () => filterTasks(all, listID)
+    const filterActive = () => filterTasks(active, listID)
+    const filterCompleted = () => filterTasks(completed, listID)
 
 
     return (<div className={s.App}>
             <div>
-                <h3>{title}</h3>
+                <div className={s.title}>
+                    <h3>{title}</h3>
+                    <button onClick={removeListCB}>{buttons.x}</button>
+                </div>
+
                 <div>
                     <input className={error ? s.input : ''} value={newTaskTitle}
                            onChange={changeInputCB}
@@ -83,7 +89,7 @@ export const ToDoList = ({
                 <ul>
                     {tasks.map((t, index) => {
 
-                            const removeTaskCB = () => removeTask(t.id)
+                            const removeTaskCB = () => removeTask(t.id, listID)
 
                             return <li key={index} className={t.isDone ? s.isDone : ''}>
                                 <input id={t.id} type="checkbox" checked={t.isDone} readOnly onClick={changeTaskStatusCB}/>
@@ -94,9 +100,9 @@ export const ToDoList = ({
                     )}
                 </ul>
                 <div className={s.filter}>
-                    <button className={filter == all ? s.active : ''} onClick={filterAll}>{all}</button>
-                    <button className={filter == active ? s.active : ''} onClick={filterActive}>{active}</button>
-                    <button className={filter == completed ? s.active : ''}
+                    <button className={filter === all ? s.active : ''} onClick={filterAll}>{all}</button>
+                    <button className={filter === active ? s.active : ''} onClick={filterActive}>{active}</button>
+                    <button className={filter === completed ? s.active : ''}
                             onClick={filterCompleted}>{completed}</button>
                 </div>
             </div>

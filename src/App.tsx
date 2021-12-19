@@ -46,8 +46,7 @@ function App() {
         {id: list2, title: 'Food', filter: 'All'}
     ])
 
-
-    const [tasks, setTasks] = useState<tasksPT>({
+    const [tasks, setTasks] = useState({
         [list1]: [
             {id: v1(), title: 'JS', isDone: false},
             {id: v1(), title: 'TS', isDone: true},
@@ -60,38 +59,36 @@ function App() {
             {id: v1(), title: 'Pear', isDone: false},
             {id: v1(), title: 'Melon', isDone: false},
             {id: v1(), title: 'Orange', isDone: false}
+        ],
+        ['asd']: [
+            {id: v1(), title: 'Apple', isDone: false}
         ]
     })
 
 
-    const removeTask = (taskID: string) => {
-        const copyTasks = [...tasks]
-        setTasks(copyTasks.filter(l => l.id !== taskID))
+    const removeTask = (taskID: string, listID: string) => {
+        setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
     }
-    const addTask = (title: string) => {
+    const addTask = (title: string, listID: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
-        const copyTasks = [newTask, ...tasks]
-        setTasks(copyTasks)
+        setTasks({...tasks, [listID]: [newTask, ...tasks[listID]]})
     }
-    const changeTaskStatus = (taskID: string) => {
-        let copyTasks = [...tasks]
-        copyTasks = tasks.map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)
-        setTasks(copyTasks)
+    const changeTaskStatus = (taskID: string, listID: string) => {
+        setTasks({...tasks, [listID]: tasks[listID].map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)})
+    }
+    const changeFilter = (filter: filterPT, listID: string) => {
+        setState(state.map(l => l.id === listID ? {...l, filter: filter} : l))
     }
 
-    const changeFilter = (filter: filterPT, idToDoList: string) => {
-        let changeToDo = state.find(l => l.id === idToDoList)
-        if (changeToDo) {
-            changeToDo.filter = filter
-        }
-        setState([...state])
+    const removeList = (listID: string) => {
+        setState(state.filter(l => l.id !== listID))
     }
 
     return (
         <div className={s.main}>
             {state.map(l => {
 
-                let copyTasks = tasks
+                let copyTasks = tasks[l.id]
 
                 switch (l.filter) {
                     case 'Completed':
@@ -101,11 +98,12 @@ function App() {
                         copyTasks = copyTasks.filter(l => !l.isDone)
                 }
 
-                return (<ToDoList toDoListID={l.id}
+                return (<ToDoList listID={l.id}
                                   key={l.id}
                                   title={l.title}
                                   tasks={copyTasks}
                                   removeTask={removeTask}
+                                  removeList={removeList}
                                   filterTasks={changeFilter}
                                   addTask={addTask}
                                   changeTaskStatus={changeTaskStatus}
