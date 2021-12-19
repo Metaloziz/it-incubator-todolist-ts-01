@@ -5,6 +5,7 @@ import {v1} from "uuid";
 import s from './App.module.css'
 
 export type filterPT = 'all' | 'completed' | 'active'
+export const filters = 'all'
 
 export type tasksPT = taskPT[]
 
@@ -39,36 +40,35 @@ function App() {
     const [tasks, setTasks] = useState<tasksPT>(tasks1)
     const [filter, setFilter] = useState<filterPT>("all")
 
-    const remuveTask = (taskID: string) => {
+    const removeTask = (taskID: string) => {
         const copyTasks = [...tasks]
         setTasks(copyTasks.filter(l => l.id !== taskID))
     }
 
     let copyTasks = tasks
-    // const filterTasks = (filter: filterPT) => {
-    //     setTasks(() => {
-                switch (filter) {
-                    case 'completed':
-                        copyTasks = copyTasks.filter(l => l.isDone)
-                        break
-                    case 'active':
-                        copyTasks=  copyTasks.filter(l => !l.isDone)
-                    // case 'all':
-                    //     return copyTasks
-                 }
-    //         }
-    //     )
-    // }
+
+    switch (filter) {
+        case 'completed':
+            copyTasks = tasks.filter(l => l.isDone)
+            break
+        case 'active':
+            copyTasks = tasks.filter(l => !l.isDone)
+    }
+
+
     const addTask = (title: string) => {
-        const copyTasks = [...tasks1]
+        let newTask = {id: v1(), title: title, isDone: false}
+        const copyTasks = [newTask, ...tasks]
+        setTasks(copyTasks)
     }
 
     return (
         <div className={s.main}>
             <ToDoList title={'What to learn'}
                       tasks={copyTasks}
-                      remuveTask={remuveTask}
-                      filterTasks={setFilter}/>
+                      removeTask={removeTask}
+                      filterTasks={setFilter}
+                      addTask={addTask}/>
             {/*<ToDoList title={'Food'} tasks={tasks2}/>*/}
         </div>
     );

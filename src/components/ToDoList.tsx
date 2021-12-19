@@ -1,4 +1,5 @@
-import React from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+
 import {filterPT, taskPT} from "../App";
 import s from '../App.module.css'
 
@@ -7,16 +8,37 @@ type ToDoListPT = {
     title: string
     // filter: string
     tasks: taskPT[]
-    remuveTask: (taskID: string) => void
+    removeTask: (taskID: string) => void
     filterTasks: (filter: filterPT) => void
+    addTask: (title: string) => void
 }
 
 
 export const ToDoList = (props: ToDoListPT) => {
 
+    const [title, setTitle] = useState<string>('')
 
-    const callRemuve = (taskID: string) => {
-        props.remuveTask(taskID)
+
+    const addTaskButtonCB = () => {
+        if (title.trim()) {
+            props.addTask(title)
+            setTitle('')
+        }
+
+    }
+    const addTaskEnterCB = (event: KeyboardEvent<HTMLInputElement>) => {
+        switch (event.key) {
+            case 'Enter':
+                if (title.trim()) {
+                    props.addTask(title)
+                    setTitle('')
+                }
+                break;
+        }
+
+    }
+    const changeTaskCallBack = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
     }
 
 
@@ -24,16 +46,18 @@ export const ToDoList = (props: ToDoListPT) => {
             <div>
                 <h3>{props.title}</h3>
                 <div>
-                    <input/>
-                    <button>+</button>
+                    <input value={title}
+                           onChange={changeTaskCallBack}
+                           onKeyPress={addTaskEnterCB}/>
+                    <button onClick={addTaskButtonCB}>+</button>
                 </div>
                 <ul>
-                    {props.tasks.map(t =>
-                        <li id={t.id}>
-                            <input type="checkbox" checked={t.isDone}/>
+                    {props.tasks.map((t, index) =>
+                        <li id={t.id} key={index}>
+                            <input type="checkbox" checked={t.isDone} readOnly/>
                             <span>{t.title}</span>
                             <button onClick={() => {
-                                callRemuve(t.id)
+                                props.removeTask(t.id)
                             }}>x
                             </button>
                         </li>
