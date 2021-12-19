@@ -6,21 +6,16 @@ import s from './App.module.css'
 import {SupperInput} from "./components/SupperInput";
 
 export type filterPT = 'All' | 'Completed' | 'Active'
-
 export type tasksPT = {
     [key: string]: taskPT[]
 }
-
 export type taskPT = {
     id: string
     title: string
     isDone: boolean
 }
-
 export type buttonsPT = typeof buttons
-
-type statePT = toDolistPT[]
-
+export type statePT = toDolistPT[]
 export type toDolistPT = {
     id: string
     title: string
@@ -32,7 +27,7 @@ const buttons = {
     all: 'All',
     completed: 'Completed',
     active: 'Active',
-    added: 'Added',
+    added: 'Add',
     x: 'x'
 } as const
 
@@ -60,19 +55,17 @@ function App() {
             {id: v1(), title: 'Pear', isDone: false},
             {id: v1(), title: 'Melon', isDone: false},
             {id: v1(), title: 'Orange', isDone: false}
-        ],
-        ['asd']: [
-            {id: v1(), title: 'Apple', isDone: false}
         ]
     })
 
-
-    const removeTask = (taskID: string, listID: string) => {
-        setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
-    }
     const addTask = (title: string, listID: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [listID]: [newTask, ...tasks[listID]]})
+    }
+    const removeTask = (taskID: string, listID: string) => {
+        console.log(tasks[listID].find(l => l.id = taskID))
+        setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
+        console.log(tasks[listID])
     }
     const changeTaskStatus = (taskID: string, listID: string) => {
         setTasks({...tasks, [listID]: tasks[listID].map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)})
@@ -80,14 +73,28 @@ function App() {
     const changeFilter = (filter: filterPT, listID: string) => {
         setState(state.map(l => l.id === listID ? {...l, filter: filter} : l))
     }
-
     const removeList = (listID: string) => {
         setState(state.filter(l => l.id !== listID))
     }
 
+    const addNewList = (title: string, listID: string) => {
+        let newList: toDolistPT = {id: listID, title: title, filter: 'All'}
+        setState([...state, newList])
+        setTasks({[listID]: [], ...tasks,})
+    }
+
+    const changeTitleList = (newTitle: string, listID: string) => {
+        setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
+    }
+    const changeTitleTask = (newTitle: string, listID: string, taskID: string) => {
+
+        console.log('adf')
+        // setTasks({...tasks, [listID]: tasks[listID].map(l => l.id == taskID ? {...l, title: newTitle} : l)})
+    }
+
     return (
         <div className={s.main}>
-            <SupperInput listID={v1()} addItem={addTask} buttons={buttons}/>
+            <SupperInput listID={v1()} addItem={addNewList} buttons={buttons}/>
             {state.map(l => {
 
                 let copyTasks = tasks[l.id]
@@ -104,13 +111,16 @@ function App() {
                                   key={l.id}
                                   title={l.title}
                                   tasks={copyTasks}
+                                  addTask={addTask}
                                   removeTask={removeTask}
                                   removeList={removeList}
                                   filterTasks={changeFilter}
-                                  addTask={addTask}
+                                  filter={l.filter}
                                   changeTaskStatus={changeTaskStatus}
+                                  changeTitleList={changeTitleList}
+                                  changeTitleTask={changeTitleTask}
                                   buttons={buttons}
-                                  filter={l.filter}/>
+                    />
                 )
             })}
         </div>

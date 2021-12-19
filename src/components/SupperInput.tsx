@@ -9,20 +9,16 @@ type SupperInputPT = {
 }
 
 
-export const SupperInput = ({addItem,listID,buttons}:SupperInputPT) => {
+export const SupperInput = ({addItem, listID, buttons}: SupperInputPT) => {
 
     const [error, setError] = useState<boolean>(false)
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
-
-
 
     const addTaskButtonCB = () => {
         if (newTaskTitle.trim()) {
             addItem(newTaskTitle, listID)
             setNewTaskTitle('')
         } else setError(true)
-
-
     }
     const addTaskEnterCB = (event: KeyboardEvent<HTMLInputElement>) => {
         switch (event.key) {

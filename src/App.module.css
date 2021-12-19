@@ -20,6 +20,9 @@
 .main {
     margin-left: 5%;
     display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    height: auto;
     gap: 5%;
 }
 
