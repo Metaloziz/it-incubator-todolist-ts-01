@@ -20,9 +20,7 @@ export const SupperSpan = ({title, changeTitle, id}: SupperSpanPT) => {
         setEditMod(false)
     }
 
-    const changeText = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
+    const changeText = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
 
     return (
         editMod

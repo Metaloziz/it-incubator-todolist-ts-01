@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {ToDoList} from "./components/ToDoList";
 import {v1} from "uuid";
 import s from './App.module.css'
@@ -15,13 +14,12 @@ export type taskPT = {
     isDone: boolean
 }
 export type buttonsPT = typeof buttons
-export type statePT = toDolistPT[]
-export type toDolistPT = {
+export type statePT = toDoListPT[]
+export type toDoListPT = {
     id: string
     title: string
     filter: filterPT
 }
-
 
 const buttons = {
     all: 'All',
@@ -63,9 +61,7 @@ function App() {
         setTasks({...tasks, [listID]: [newTask, ...tasks[listID]]})
     }
     const removeTask = (listID: string, taskID: string) => {
-        let copyTasks = tasks[listID]
-        copyTasks = copyTasks.filter(l => l.id !== taskID)
-        setTasks({...tasks, [listID]: copyTasks})
+        setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
     }
     const changeTaskStatus = (taskID: string, listID: string) => {
         setTasks({...tasks, [listID]: tasks[listID].map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)})
@@ -78,7 +74,7 @@ function App() {
     }
 
     const addNewList = (title: string, listID: string) => {
-        let newList: toDolistPT = {id: listID, title: title, filter: 'All'}
+        let newList: toDoListPT = {id: listID, title: title, filter: 'All'}
         setState([...state, newList])
         setTasks({[listID]: [], ...tasks,})
     }

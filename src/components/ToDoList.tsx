@@ -1,5 +1,4 @@
 import React, {MouseEvent} from 'react';
-
 import {buttonsPT, filterPT, taskPT} from "../App";
 import s from '../App.module.css'
 import {SupperInput} from "./SupperInput";
