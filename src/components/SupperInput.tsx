@@ -1,6 +1,6 @@
-import s from "../App.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "@mui/material";
+import {IconButton, TextField} from "@mui/material";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 
 type SupperInputPT = {
@@ -32,17 +32,22 @@ export const SupperInput = ({addItem, listID}: SupperInputPT) => {
     }
     const changeInputCB = (event: ChangeEvent<HTMLInputElement>) => {
         setError(false)
-        setNewTaskTitle(event.currentTarget.value)
+        setNewTaskTitle(event.currentTarget.value.trim())
     }
 
-    return (<div>
-            <input className={error ? s.input : ''} value={newTaskTitle}
-                   onChange={changeInputCB}
-                   onKeyPress={addTaskEnterCB}/>
-            {/*<button onClick={addTaskButtonCB}>add</button>*/}
-            <Button onClick={addTaskButtonCB} variant={"contained"} color={"inherit" } size={"small"} >add</Button>
 
-            {error ? <div className={s.errorMessage}>error</div> : ''}
+    return ( <div style={{display:"flex", alignItems: "center", justifyContent: "space-between"}}>
+            <TextField error={error}
+                       value={newTaskTitle}
+                       label="New name task"
+                       onChange={changeInputCB}
+                       onKeyPress={addTaskEnterCB}
+                       variant={"filled"}
+                       helperText={error ? 'Field is required' : ''}
+            />
+            <IconButton onClick={addTaskButtonCB} size={"large"}>
+                <AddCircleOutlineOutlinedIcon/>
+            </IconButton>
         </div>
 
     )

@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {ToDoList} from "./components/ToDoList";
 import {v1} from "uuid";
-import s from './App.module.css'
 import {SupperInput} from "./components/SupperInput";
+import {AppBar, Button, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import Box from '@mui/material/Box';
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 export type filterPT = 'All' | 'Completed' | 'Active'
 export type tasksPT = {
@@ -88,39 +93,79 @@ function App() {
         setTasks({...tasks})
     }
 
-    return (
-        <div className={s.main}>
-            <SupperInput listID={v1()} addItem={addNewList}/>
-            {state.map(l => {
+    return (<>
+            <Box sx={{flexGrow: 1, marginBottom: '1%'}}>
+                <AppBar position="static" color={"secondary"}>
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                            TO DO DO
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
 
-                let copyTasks = tasks[l.id]
+            <Container fixed>
 
-                switch (l.filter) {
-                    case 'Completed':
-                        copyTasks = copyTasks.filter(l => l.isDone)
-                        break
-                    case 'Active':
-                        copyTasks = copyTasks.filter(l => !l.isDone)
-                }
+                {/*<Box sx={{*/}
+                {/*    display: 'flex',*/}
+                {/*    flexWrap: 'wrap',*/}
+                {/*    '& > :not(style)': {*/}
+                {/*        m: 5,*/}
+                {/*        width: 270,*/}
+                {/*        height: 128,*/}
+                {/*    },*/}
+                {/*}}>*/}
+                <Grid container>
+                    <SupperInput listID={v1()} addItem={addNewList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {state.map(l => {
 
-                return (<ToDoList listID={l.id}
-                                  key={l.id}
-                                  title={l.title}
-                                  tasks={copyTasks}
-                                  addTask={addTask}
-                                  removeTask={removeTask}
-                                  removeList={removeList}
-                                  filterTasks={changeFilter}
-                                  filter={l.filter}
-                                  changeTaskStatus={changeTaskStatus}
-                                  changeTitleList={changeTitleList}
-                                  changeTitleTask={changeTitleTask}
-                                  buttons={buttons}
-                    />
-                )
-            })}
-        </div>
-    );
+                        let copyTasks = tasks[l.id]
+
+                        switch (l.filter) {
+                            case 'Completed':
+                                copyTasks = copyTasks.filter(l => l.isDone)
+                                break
+                            case 'Active':
+                                copyTasks = copyTasks.filter(l => !l.isDone)
+                        }
+
+                        return (
+                            <Grid item>
+                                <Paper elevation={10} style={{padding: '5%', marginTop:'5%' }}>
+                                    <ToDoList listID={l.id}
+                                              key={l.id}
+                                              title={l.title}
+                                              tasks={copyTasks}
+                                              addTask={addTask}
+                                              removeTask={removeTask}
+                                              removeList={removeList}
+                                              filterTasks={changeFilter}
+                                              filter={l.filter}
+                                              changeTaskStatus={changeTaskStatus}
+                                              changeTitleList={changeTitleList}
+                                              changeTitleTask={changeTitleTask}
+                                              buttons={buttons}
+                                    /> </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+                {/*</Box>*/}
+            </Container>
+        </>
+    )
 }
 
 export default App;

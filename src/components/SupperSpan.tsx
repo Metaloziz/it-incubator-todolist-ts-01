@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
+import {TextField} from "@mui/material";
 
 type SupperSpanPT = {
     id: string
@@ -16,15 +17,23 @@ export const SupperSpan = ({title, changeTitle, id}: SupperSpanPT) => {
         setEditMod(true)
     }
     const disableActiveMod = () => {
-        changeTitle(localTitle, id)
-        setEditMod(false)
+        if (localTitle) {
+            changeTitle(localTitle, id)
+            setEditMod(false)
+        } else setEditMod(false)
+
     }
 
     const changeText = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
 
     return (
         editMod
-            ? <input autoFocus value={localTitle} onChange={changeText} onBlur={disableActiveMod}/>
+            ? <TextField variant={"filled"}
+                         autoFocus
+                         value={localTitle}
+                         onChange={changeText}
+                         onBlur={disableActiveMod}
+                         label={title}/>
             : <span onDoubleClick={activeEditMod}>{title}</span>
     )
 }
