@@ -63,9 +63,9 @@ function App() {
         setTasks({...tasks, [listID]: [newTask, ...tasks[listID]]})
     }
     const removeTask = (listID: string, taskID: string) => {
-        console.log(tasks[listID].find(l => l.id = taskID))
-        setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
-        console.log(tasks[listID])
+        let copyTasks = tasks[listID]
+        copyTasks = copyTasks.filter(l => l.id !== taskID)
+        setTasks({...tasks, [listID]: copyTasks})
     }
     const changeTaskStatus = (taskID: string, listID: string) => {
         setTasks({...tasks, [listID]: tasks[listID].map(l => l.id === taskID ? {...l, isDone: !l.isDone} : l)})
@@ -84,12 +84,12 @@ function App() {
     }
 
     const changeTitleList = (newTitle: string, listID: string) => {
-        setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
-        console.log(state)
+        state.map(l => l.id === listID ? l.title = newTitle : l)
+        setState([...state])
     }
     const changeTitleTask = (newTitle: string, listID: string, taskID: string) => {
-
-        setTasks({...tasks, [listID]: tasks[listID].map(l => l.id == taskID ? {...l, title: newTitle} : l)})
+        tasks[listID].map(l => l.id === taskID ? l.title = newTitle : l)
+        setTasks({...tasks})
     }
 
     return (

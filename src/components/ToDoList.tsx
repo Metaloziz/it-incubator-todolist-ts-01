@@ -5,13 +5,14 @@ import s from '../App.module.css'
 import {SupperInput} from "./SupperInput";
 import {SupperSpan} from "./SupperSpan";
 
+
 type ToDoListPT = {
     listID: string
     title: string
     filter: filterPT
     tasks: taskPT[]
-    removeTask: (listID: string, taskID: string) => void
     removeList: (listID: string) => void
+    removeTask: (listID: string, taskID: string) => void
     filterTasks: (filter: filterPT, listID: string) => void
     addTask: (title: string, listID: string) => void
     changeTaskStatus: (listID: string, taskID: string) => void
@@ -26,7 +27,7 @@ export const ToDoList = ({
                              filterTasks, tasks,
                              changeTaskStatus, title,
                              removeTask, addTask,
-                             filter, removeList, changeTitleList, changeTitleTask
+                             filter, removeList, changeTitleTask, changeTitleList
                          }: ToDoListPT) => {
 
     let all = buttons.all
@@ -45,13 +46,14 @@ export const ToDoList = ({
     const changeTitleListCB = (newTitle: string) => {
         changeTitleList(newTitle, listID)
     }
-    const changeTitleTaskCB = (taskID: string, newTitle: string) => {
+    const changeTitleTaskCB = (newTitle: string, taskID: string) => {
         changeTitleTask(newTitle, listID, taskID)
     }
 
     return (<div className={s.App}>
             <div>
                 <div className={s.title}>
+                    {/*<h3><span>{title}</span></h3>*/}
                     <h3><SupperSpan id={listID} title={title} changeTitle={changeTitleListCB}/></h3>
                     <button onClick={removeListCB}>{buttons.x}</button>
                 </div>
@@ -63,8 +65,8 @@ export const ToDoList = ({
 
                             return <li key={index} className={t.isDone ? s.isDone : ''}>
                                 <input id={t.id} type="checkbox" checked={t.isDone} readOnly onClick={changeTaskStatusCB}/>
-                                <span>{t.title}</span>
-                                {/*<SupperSpan id={t.id} title={t.title} changeTitle={changeTitleTaskCB}/>*/}
+                                {/*<span>{t.title}</span>*/}
+                                <SupperSpan id={t.id} title={t.title} changeTitle={changeTitleTaskCB}/>
                                 <button onClick={removeTaskCB}>{buttons.x}</button>
                             </li>
                         }
