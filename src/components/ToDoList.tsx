@@ -3,6 +3,9 @@ import {buttonsPT, filterPT, taskPT} from "../App";
 import s from '../App.module.css'
 import {SupperInput} from "./SupperInput";
 import {SupperSpan} from "./SupperSpan";
+import {IconButton} from "@mui/material";
+import {Delete} from "@material-ui/icons";
+
 
 
 type ToDoListPT = {
@@ -37,7 +40,6 @@ export const ToDoList = ({
         changeTaskStatus(taskID.currentTarget.id, listID)
     }
     const removeListCB = () => removeList(listID)
-
     const filterAll = () => filterTasks(all, listID)
     const filterActive = () => filterTasks(active, listID)
     const filterCompleted = () => filterTasks(completed, listID)
@@ -66,7 +68,10 @@ export const ToDoList = ({
                                 <input id={t.id} type="checkbox" checked={t.isDone} readOnly onClick={changeTaskStatusCB}/>
                                 {/*<span>{t.title}</span>*/}
                                 <SupperSpan id={t.id} title={t.title} changeTitle={changeTitleTaskCB}/>
-                                <button onClick={removeTaskCB}>{buttons.x}</button>
+                                {/*<button onClick={removeTaskCB}>{buttons.x}</button>*/}
+                                <IconButton onClick={removeTaskCB} >
+                                    <Delete />
+                                </IconButton>
                             </li>
                         }
                     )}

@@ -1,5 +1,7 @@
 import s from "../App.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button} from "@mui/material";
+
 
 type SupperInputPT = {
     listID: string
@@ -27,7 +29,6 @@ export const SupperInput = ({addItem, listID}: SupperInputPT) => {
                 } else setError(true)
                 break;
         }
-
     }
     const changeInputCB = (event: ChangeEvent<HTMLInputElement>) => {
         setError(false)
@@ -38,7 +39,9 @@ export const SupperInput = ({addItem, listID}: SupperInputPT) => {
             <input className={error ? s.input : ''} value={newTaskTitle}
                    onChange={changeInputCB}
                    onKeyPress={addTaskEnterCB}/>
-            <button onClick={addTaskButtonCB}>add</button>
+            {/*<button onClick={addTaskButtonCB}>add</button>*/}
+            <Button onClick={addTaskButtonCB} variant={"contained"} color={"inherit" } size={"small"} >add</Button>
+
             {error ? <div className={s.errorMessage}>error</div> : ''}
         </div>
 
