@@ -1,15 +1,13 @@
 import s from "../App.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {buttonsPT} from "../App";
 
 type SupperInputPT = {
     listID: string
     addItem: (title: string, listID: string) => void
-    buttons: buttonsPT
 }
 
 
-export const SupperInput = ({addItem, listID, buttons}: SupperInputPT) => {
+export const SupperInput = ({addItem, listID}: SupperInputPT) => {
 
     const [error, setError] = useState<boolean>(false)
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
@@ -40,7 +38,7 @@ export const SupperInput = ({addItem, listID, buttons}: SupperInputPT) => {
             <input className={error ? s.input : ''} value={newTaskTitle}
                    onChange={changeInputCB}
                    onKeyPress={addTaskEnterCB}/>
-            <button onClick={addTaskButtonCB}>{buttons.added}</button>
+            <button onClick={addTaskButtonCB}>add</button>
             {error ? <div className={s.errorMessage}>error</div> : ''}
         </div>
 

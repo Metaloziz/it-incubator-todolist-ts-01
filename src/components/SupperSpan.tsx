@@ -1,6 +1,4 @@
-import s from "../App.module.css";
 import React, {ChangeEvent, useState} from "react";
-import {buttonsPT} from "../App";
 
 type SupperSpanPT = {
     id: string
@@ -19,14 +17,14 @@ export const SupperSpan = ({title, changeTitle, id}: SupperSpanPT) => {
     const changeText = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    const sendTExt = () => {
+    const sendText = () => {
         changeTitle(localTitle, id)
         setInput(false)
     }
 
     return (
         input
-            ? <input autoFocus value={localTitle} onChange={changeText} onBlur={sendTExt}/>
+            ? <input autoFocus value={localTitle} onChange={changeText} onBlur={sendText}/>
             : <span onDoubleClick={changeInput}>{localTitle}</span>
     )
 }

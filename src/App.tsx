@@ -42,7 +42,7 @@ function App() {
         {id: list2, title: 'Food', filter: 'All'}
     ])
 
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<tasksPT>({
         [list1]: [
             {id: v1(), title: 'JS', isDone: false},
             {id: v1(), title: 'TS', isDone: true},
@@ -62,7 +62,7 @@ function App() {
         let newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [listID]: [newTask, ...tasks[listID]]})
     }
-    const removeTask = (taskID: string, listID: string) => {
+    const removeTask = (listID: string, taskID: string) => {
         console.log(tasks[listID].find(l => l.id = taskID))
         setTasks({...tasks, [listID]: tasks[listID].filter(l => l.id !== taskID)})
         console.log(tasks[listID])
@@ -84,17 +84,17 @@ function App() {
     }
 
     const changeTitleList = (newTitle: string, listID: string) => {
-        // setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
-        // console.log(state)
+        setState(state.map(l => l.id === listID ? {...l, title: newTitle} : l))
+        console.log(state)
     }
     const changeTitleTask = (newTitle: string, listID: string, taskID: string) => {
 
-        // setTasks({...tasks, [listID]: tasks[listID].map(l => l.id == taskID ? {...l, title: newTitle} : l)})
+        setTasks({...tasks, [listID]: tasks[listID].map(l => l.id == taskID ? {...l, title: newTitle} : l)})
     }
 
     return (
         <div className={s.main}>
-            <SupperInput listID={v1()} addItem={addNewList} buttons={buttons}/>
+            <SupperInput listID={v1()} addItem={addNewList}/>
             {state.map(l => {
 
                 let copyTasks = tasks[l.id]

@@ -10,9 +10,9 @@ type ToDoListPT = {
     title: string
     filter: filterPT
     tasks: taskPT[]
-    removeTask: (taskID: string, listID: string) => void
+    removeTask: (listID: string, taskID: string) => void
     removeList: (listID: string) => void
-    filterTasks: (filter: filterPT, toDoListID: string) => void
+    filterTasks: (filter: filterPT, listID: string) => void
     addTask: (title: string, listID: string) => void
     changeTaskStatus: (listID: string, taskID: string) => void
     buttons: buttonsPT
@@ -45,22 +45,21 @@ export const ToDoList = ({
     const changeTitleListCB = (newTitle: string) => {
         changeTitleList(newTitle, listID)
     }
-    const changeTitleTaskCB = (taskID:string, newTitle: string) => {
+    const changeTitleTaskCB = (taskID: string, newTitle: string) => {
         changeTitleTask(newTitle, listID, taskID)
     }
 
     return (<div className={s.App}>
             <div>
-
                 <div className={s.title}>
                     <h3><SupperSpan id={listID} title={title} changeTitle={changeTitleListCB}/></h3>
                     <button onClick={removeListCB}>{buttons.x}</button>
                 </div>
-                <SupperInput listID={listID} addItem={addTask} buttons={buttons}/>
+                <SupperInput listID={listID} addItem={addTask}/>
                 <ul>
                     {tasks.map((t, index) => {
 
-                            const removeTaskCB = () => removeTask(t.id, listID)
+                            const removeTaskCB = () => removeTask(listID, t.id)
 
                             return <li key={index} className={t.isDone ? s.isDone : ''}>
                                 <input id={t.id} type="checkbox" checked={t.isDone} readOnly onClick={changeTaskStatusCB}/>
