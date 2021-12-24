@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./components/AddItemForm";
 import {SpanNew} from "./components/SpanNew";
+import {Button, ButtonGroup, Typography} from "@material-ui/core";
 
 type TaskType = {
     id: string
@@ -30,7 +31,9 @@ export function Todolist(props: PropsType) {
         }
     }
 
-    const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
+    const onAllClickHandler = () => {
+        props.changeFilter(props.todolistId, "all");
+    }
     const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
     const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
 
@@ -40,41 +43,66 @@ export function Todolist(props: PropsType) {
     // }
 
     // debugger
-    return <div>
-        <h3>{props.title}</h3>
-        <AddItemForm addTask={addTask}/>
-        <ul>{props.tasks.map(t => {
+    return (
+        <div style={{
+            padding: "10px",
+            display: "flex",
+            flexDirection: 'column',
+            justifyContent: "space-between",
+            minHeight: '300px'
+        }}>
+            <div >
+                <Typography variant={"h6"} align={"left"}>{props.title}</Typography>
+                <AddItemForm addTask={addTask}/>
+            </div>
+            <div style={{
+                height: '150px',
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: "space-around",
+            }}>{props.tasks.map(t => {
 
-            const onClickHandler = () => {
-                props.removeTask(props.todolistId, t.id)
-            }
-            const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked);
-            }
+                const onClickHandler = () => {
+                    props.removeTask(props.todolistId, t.id)
+                }
+                const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                    props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked);
+                }
 
-            return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                <input type="checkbox"
-                       onChange={onChangeHandler}
-                       checked={t.isDone}/>
-                {/*<span>{t.title}</span>*/}
-                <SpanNew value={t.title} changeTitle={(text)=>{
-                    props.changeTitle(props.todolistId, t.id, text )
-                }}/>
-                <button onClick={onClickHandler}>x</button>
-            </li>
-        })
-        }
-        </ul>
-        <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All
-            </button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                    onClick={onActiveClickHandler}>Active
-            </button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                    onClick={onCompletedClickHandler}>Completed
-            </button>
-        </div>
-    </div>
+                return <div style={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                }} key={t.id} className={t.isDone ? "is-done" : ""}>
+                    <input type="checkbox"
+                           onChange={onChangeHandler}
+                           checked={t.isDone}/>
+                    {/*<span>{t.title}</span>*/}
+                    <SpanNew value={t.title} changeTitle={(text) => {
+                        props.changeTitle(props.todolistId, t.id, text)
+                    }}/>
+                    <button onClick={onClickHandler}>x</button>
+                </div>
+            })
+            }
+            </div>
+            <div>
+                <ButtonGroup
+                    variant="text"
+                    color="primary"
+                    aria-label="text primary button group"
+                >
+                    <Button
+
+                        className={props.filter === 'all' ? "active-filter" : ""}
+                        onClick={onAllClickHandler}>All
+                    </Button>
+                    <Button className={props.filter === 'active' ? "active-filter" : ""}
+                            onClick={onActiveClickHandler}>Active
+                    </Button>
+                    <Button className={props.filter === 'completed' ? "active-filter" : ""}
+                            onClick={onCompletedClickHandler}>Completed
+                    </Button>
+                </ButtonGroup>
+            </div>
+        </div>)
 }

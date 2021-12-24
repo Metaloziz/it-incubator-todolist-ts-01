@@ -1,8 +1,9 @@
 import React, {ChangeEvent, useState} from "react";
+import {Input} from "@material-ui/core";
 
 type SpanNewPT = {
     value: string
-    changeTitle: (text: string)=>void
+    changeTitle: (text: string) => void
 }
 export const SpanNew = ({value, changeTitle}: SpanNewPT) => {
 
@@ -25,7 +26,8 @@ export const SpanNew = ({value, changeTitle}: SpanNewPT) => {
 
     return (
         editMod
-            ? <input autoFocus value={text}
+            ? <Input autoFocus
+                     value={text}
                      onBlur={callBackLocal2}
                      onChange={callBackLocal3}/>
             : <span onDoubleClick={callBackLocal}>{text}</span>
