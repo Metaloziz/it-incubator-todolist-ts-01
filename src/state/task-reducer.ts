@@ -31,7 +31,9 @@ export const changeTaskTitleAC = (listID: string, taskID: string, title: string)
     title
 } as const)
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+let initialState: TasksStateType = {}
+
+export const tasksReducer = (state = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case ADD_TASK:
             let newTask: TaskType = {id: '10', title: action.title, isDone: false}
@@ -55,6 +57,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             delete copy[action.id]
             return copy
         default:
+            console.log("I don't understand this type")
             return state
     }
 }
