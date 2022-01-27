@@ -8,6 +8,7 @@ export default {
     title: 'TODOLIST/AppWithRedux',
     component: AppWithRedux,
     decorators: [ReduxStoreProviderDecorator]
+
 } as ComponentMeta<typeof AppWithRedux>;
 
 const Template: ComponentStory<typeof AppWithRedux> = () => <AppWithRedux/>;
